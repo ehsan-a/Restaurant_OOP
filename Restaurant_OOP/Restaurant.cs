@@ -47,13 +47,21 @@ namespace Restaurant_OOP
         {
             customer.Balance.Add(balance);
         }
+        public void ChargeFoodQty(Menu menu, int qty)
+        {
+            menu.Qty.Add(qty);
+        }
+        public void ChangeStatus(Order order, Order.OrderStatus orderStatus)
+        {
+            order.Status = orderStatus;
+        }
         public override string ToString()
         {
             return $"Restaurant: [{Name}] - Description: [{Description}] - Address: [{Address}]";
         }
         public IEnumerable<string> GetMenu()
         {
-            return Menus.Select(menu => $"Name: [{menu.Name}] - Description: [{menu.Description}] - Price: [{menu.Price}]");
+            return Menus.Select(menu => $"Name: [{menu.Name}] - Description: [{menu.Description}] - Price: [{menu.Price}] - Qty: [{GetFoodQty(menu)}]");
         }
         public IEnumerable<string> GetPersonnel()
         {
@@ -70,6 +78,22 @@ namespace Restaurant_OOP
         public IEnumerable<string> GetOrder(Customer customer)
         {
             return customer.Orders.Select(order => $"ID: [{order.Id}] - Date: [{order.Date}] - Customer: [{customer.FirstName} {customer.LastName}] - Status: [{order.Status}] - Sum: [{order.OrderSum()}]");
+        }
+        public int GetFoodQty(Menu menu)
+        {
+            int sum = 0;
+            foreach (var item in Customers)
+            {
+                foreach (var item2 in item.Orders)
+                {
+                    foreach (var item3 in item2.MenuList)
+                    {
+                        if (item3.Key.Name == menu.Name)
+                            sum += item3.Value;
+                    }
+                }
+            }
+            return menu.Qty.Sum() - sum;
         }
     }
 }
