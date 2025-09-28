@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Restaurant_OOP;
+using System;
 
 Restaurant restaurant1 = new Restaurant("Chiken Family", "Fast Food", "Tehran, Janbazan Street");
 Personnel pl1 = new Personnel("Ali", "Mashhadi", "0088645328", "Tehran, Madaen");
@@ -30,30 +31,60 @@ restaurant1.AddItemOrder(or1, mn2, 3);
 restaurant1.AddOrder(cu1, or1);
 restaurant1.ChangeStatus(or1, Order.OrderStatus.Sending);
 //----------------------------------
-Console.WriteLine("---------------- Restaurant Information ----------------");
+Console.WriteLine("---------------------------- Restaurant Information -----------------------------");
 Console.WriteLine(restaurant1);
-Console.WriteLine("------------------------- Menu -------------------------");
+Console.WriteLine();
+Console.WriteLine("-------------------------------------- Menu -------------------------------------");
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine($"{"#".PadRight(4)}{"FOOD NAME".PadRight(27)}{"DESCRIPTION".PadRight(35)}{"PRICE".PadRight(10)}{"QTY".PadLeft(5)}");
+Console.ResetColor();
+int counter = 1;
 foreach (var item in restaurant1.GetMenu())
 {
-    Console.WriteLine(item);
+    Console.WriteLine($"{counter.ToString().PadRight(4)}{item}");
+    counter++;
 }
-Console.WriteLine("----------------------- Personnel ----------------------");
+counter = 1;
+Console.WriteLine();
+Console.WriteLine("----------------------------------- Personnel -----------------------------------");
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine($"{"#".PadRight(4)}{"FIRST NAME".PadRight(12)}{"LAST NAME".PadRight(15)}{"ID NUMBER".PadRight(11)}{"ADDRESS".PadLeft(39)}");
+Console.ResetColor();
 foreach (var item in restaurant1.GetPersonnel())
 {
-    Console.WriteLine(item);
+    Console.WriteLine($"{counter.ToString().PadRight(4)}{item}");
+    counter++;
 }
-Console.WriteLine("----------------------- Customer -----------------------");
+counter = 1;
+Console.WriteLine();
+Console.WriteLine("------------------------------------ Customer -----------------------------------");
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine($"{"#".PadRight(4)}{"FIRST NAME".PadRight(12)}{"LAST NAME".PadRight(12)}{"ID NUMBER".PadRight(11)}{"ADDRESS".PadRight(26)}{"ORDERS".PadRight(3)}{"BALANCE".PadLeft(10)}");
+Console.ResetColor();
 foreach (var item in restaurant1.GetCustomer())
 {
-    Console.WriteLine(item);
+    Console.WriteLine($"{counter.ToString().PadRight(4)}{item}");
+    counter++;
 }
-Console.WriteLine("------------------------- Order ------------------------");
+counter = 1;
+Console.WriteLine();
+Console.WriteLine("------------------------------------- Order -------------------------------------");
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine($"{"#".PadRight(4)}{"ID".PadRight(4)}{"CUSTOMER".PadRight(24)}{"DATE/TIME".PadRight(30)}{"STATUS".PadRight(10)}{"SUM".PadLeft(9)}");
+Console.ResetColor();
 foreach (var item in restaurant1.GetOrder(cu1))
 {
-    Console.WriteLine(item);
+    Console.WriteLine($"{counter.ToString().PadRight(4)}{item}");
+    counter++;
 }
-Console.WriteLine("--------------------- Order Detail ---------------------");
+counter = 1;
+Console.WriteLine();
+Console.WriteLine("--------------------------------- Order Detail ----------------------------------");
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine($"{"#".PadRight(4)}{"FOOD NAME".PadRight(30)}{"PRICE".PadRight(17)}{"QTY".PadRight(15)}{"SUM".PadLeft(15)}");
+Console.ResetColor();
 foreach (var item in restaurant1.GetOrderDetail(or1))
 {
-    Console.WriteLine(item);
+    Console.WriteLine($"{counter.ToString().PadRight(4)}{item}");
+    counter++;
 }
