@@ -43,6 +43,10 @@ namespace Restaurant_OOP
         {
             customer.Orders.Add(order);
         }
+        public void ChargeBalance(Customer customer, decimal balance)
+        {
+            customer.Balance.Add(balance);
+        }
         public override string ToString()
         {
             return $"Restaurant: [{Name}] - Description: [{Description}] - Address: [{Address}]";
@@ -57,7 +61,7 @@ namespace Restaurant_OOP
         }
         public IEnumerable<string> GetCustomer()
         {
-            return Customers.Select(customer => $"Name: [{customer.FirstName} {customer.LastName}] - ID Number: [{customer.IdNumber}] - Address: [{customer.Address}] - Orders: [{customer.Orders.Count}]");
+            return Customers.Select(customer => $"Name: [{customer.FirstName} {customer.LastName}] - ID Number: [{customer.IdNumber}] - Address: [{customer.Address}] - Orders: [{customer.Orders.Count}] - Balance: [{customer.GetBalance()}]");
         }
         public IEnumerable<string> GetOrderDetail(Order order)
         {
@@ -65,7 +69,7 @@ namespace Restaurant_OOP
         }
         public IEnumerable<string> GetOrder(Customer customer)
         {
-            return customer.Orders.Select(order => $"ID: [{order.Id}] - Date: [{order.Date}] - Customer: [{customer.FirstName} {customer.LastName}] Sum: [{order.OrderSum()}]");
+            return customer.Orders.Select(order => $"ID: [{order.Id}] - Date: [{order.Date}] - Customer: [{customer.FirstName} {customer.LastName}] - Status: [{order.Status}] - Sum: [{order.OrderSum()}]");
         }
     }
 }
