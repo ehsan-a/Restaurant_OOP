@@ -101,5 +101,20 @@ namespace Restaurant_OOP
             }
             return menu.Qty.Sum() - sum;
         }
+        //----------------------------------
+        public Customer user;
+        public bool Login(string username, string password)
+        {
+            foreach (Customer customer in Customers)
+            {
+                if (customer.Username == username && customer.Password == password)
+                {
+                    user = customer;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
+
