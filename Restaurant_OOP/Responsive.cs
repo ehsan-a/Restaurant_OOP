@@ -37,8 +37,8 @@ namespace Restaurant_OOP
                 if (input == "c") break;
                 if (decimal.TryParse(input, out decimal amount) && amount > 0)
                 {
-                    restaurant.ChargeBalance(restaurant.user, amount);
-                    Console.WriteLine("Charge is Successfull! Balance: " + restaurant.user.GetBalance());
+                    restaurant.AddBalance(new Balance(restaurant.user.Id, amount, DateTime.Now));
+                    Console.WriteLine("Charge is Successfull! Balance: " + restaurant.GetBalance(restaurant.user));
                     break;
                 }
                 else
@@ -78,11 +78,11 @@ namespace Restaurant_OOP
         public static void AddOrder(Restaurant restaurant)
         {
             int id;
-            if (restaurant.user.Orders.Count == 0)
+            if (restaurant.Orders.Count == 0)
                 id = 1;
             else
-                id = restaurant.user.Orders[restaurant.user.Orders.Count - 1].Id + 1;
-            Order or = new Order(id, DateTime.Now);
+                id = restaurant.Orders[restaurant.Orders.Count - 1].Id + 1;
+            Order or = new Order(id, restaurant.user.Id, DateTime.Now);
             GetMenu(restaurant);
             int counter = 1;
             bool isFinish = false;
@@ -92,12 +92,12 @@ namespace Restaurant_OOP
                 {
                     Console.Write($"Enter Number of Food ({counter}) - ([f]Finish): ");
                     string input = Console.ReadLine();
-                    if (input == "f" && or.MenuList.Count != 0)
+                    if (input == "f" && restaurant.Items.Count(x => x.OrderId == or.Id) != 0)
                     {
                         isFinish = true;
                         break;
                     }
-                    else if (input == "f" && or.MenuList.Count == 0)
+                    else if (input == "f" && restaurant.Items.Count(x => x.OrderId == or.Id) == 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"Your Order list is Empty!");
@@ -107,7 +107,7 @@ namespace Restaurant_OOP
                     if (int.TryParse(input, out int number) && number <= restaurant.Menus.Count)
                     {
                         Menu menu = restaurant.Menus[number - 1];
-                        if (or.MenuList.ContainsKey(menu))
+                        if (restaurant.Items.FirstOrDefault(x => x.OrderId == or.Id && x.FoodId == menu.Id) != null)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine($"This food is on the list!");
@@ -117,7 +117,7 @@ namespace Restaurant_OOP
                         Console.Write("Enter Qty of Food: ");
                         if (int.TryParse(Console.ReadLine(), out int qty) && qty <= restaurant.GetFoodQty(menu))
                         {
-                            restaurant.AddItemOrder(or, menu, qty);
+                            restaurant.AddItemOrder(new OrderItem(or.Id, menu.Id, qty));
                             break;
                         }
                         else
@@ -141,13 +141,13 @@ namespace Restaurant_OOP
             Console.Write("Confirm your order [y]Yes [n]No: ");
             if (Console.ReadLine() == "y")
             {
-                restaurant.AddOrder(restaurant.user, or);
+                restaurant.AddOrder(or);
                 Console.WriteLine("Your order successfuly registered!");
             }
         }
         public static void GetOrders(Restaurant restaurant)
         {
-            if (restaurant.user.Orders.Count != 0)
+            if (restaurant.Orders.Count != 0)
             {
                 int counter = 1;
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -165,7 +165,7 @@ namespace Restaurant_OOP
                     Console.Write("Enter Number of order for detail ([c]Close): ");
                     string input = Console.ReadLine();
                     if (input == "c") break;
-                    GetOrderDetail(restaurant, restaurant.user.Orders[(int.Parse(input) - 1)]);
+                    GetOrderDetail(restaurant, restaurant.Orders[(int.Parse(input) - 1)]);
                 } while (true);
             }
             else
@@ -180,7 +180,7 @@ namespace Restaurant_OOP
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"{"FIRST NAME".PadRight(12)}{"LAST NAME".PadRight(12)}{"ID NUMBER".PadRight(15)}{"ADDRESS".PadRight(26)}{"ORDERS".PadRight(3)}{"BALANCE".PadLeft(10)}");
             Console.ResetColor();
-            Console.WriteLine($"{restaurant.user.FirstName.PadRight(12)}{restaurant.user.LastName.PadRight(12)}{restaurant.user.IdNumber.PadRight(15)}{restaurant.user.Address.PadRight(26)}{restaurant.user.Orders.Count.ToString().PadRight(3)}{restaurant.user.GetBalance().ToString().PadLeft(13)}");
+            Console.WriteLine($"{restaurant.user.FirstName.PadRight(12)}{restaurant.user.LastName.PadRight(12)}{restaurant.user.IdNumber.PadRight(15)}{restaurant.user.Address.PadRight(26)}{restaurant.Orders.Count.ToString().PadRight(3)}{restaurant.GetBalance(restaurant.user).ToString().PadLeft(13)}");
             Console.WriteLine();
         }
     }
