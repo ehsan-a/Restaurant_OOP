@@ -147,7 +147,7 @@ namespace Restaurant_OOP
         }
         public static void GetOrders(Restaurant restaurant)
         {
-            if (restaurant.Orders.Count != 0)
+            if (restaurant.Orders.FirstOrDefault(x => x.CustomerId == restaurant.user.Id) != null)
             {
                 int counter = 1;
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -165,7 +165,7 @@ namespace Restaurant_OOP
                     Console.Write("Enter Number of order for detail ([c]Close): ");
                     string input = Console.ReadLine();
                     if (input == "c") break;
-                    GetOrderDetail(restaurant, restaurant.Orders[(int.Parse(input) - 1)]);
+                    GetOrderDetail(restaurant, restaurant.Orders.Where(x => x.CustomerId == restaurant.user.Id).ToList()[(int.Parse(input) - 1)]);
                 } while (true);
             }
             else
@@ -180,7 +180,7 @@ namespace Restaurant_OOP
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"{"FIRST NAME".PadRight(12)}{"LAST NAME".PadRight(12)}{"ID NUMBER".PadRight(15)}{"ADDRESS".PadRight(26)}{"ORDERS".PadRight(3)}{"BALANCE".PadLeft(10)}");
             Console.ResetColor();
-            Console.WriteLine($"{restaurant.user.FirstName.PadRight(12)}{restaurant.user.LastName.PadRight(12)}{restaurant.user.IdNumber.PadRight(15)}{restaurant.user.Address.PadRight(26)}{restaurant.Orders.Count.ToString().PadRight(3)}{restaurant.GetBalance(restaurant.user).ToString().PadLeft(13)}");
+            Console.WriteLine($"{restaurant.user.FirstName.PadRight(12)}{restaurant.user.LastName.PadRight(12)}{restaurant.user.IdNumber.PadRight(15)}{restaurant.user.Address.PadRight(26)}{restaurant.Orders.Count(x => x.CustomerId == restaurant.user.Id).ToString().PadRight(3)}{restaurant.GetBalance(restaurant.user).ToString().PadLeft(13)}");
             Console.WriteLine();
         }
     }
