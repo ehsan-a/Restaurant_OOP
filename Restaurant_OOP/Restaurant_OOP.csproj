@@ -7,4 +7,18 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Data\Database.xlsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\Database.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EPPlus" Version="8.2.0" />
+  </ItemGroup>
+
 </Project>

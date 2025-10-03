@@ -6,12 +6,12 @@ Restaurant restaurant1 = new Restaurant("Chiken Family", "Fast Food", "Tehran, J
 Personnel pl1 = new Personnel("Ali", "Mashhadi", "0088645328", "Tehran, Madaen", "ali_m", "1234", true);
 Personnel pl2 = new Personnel("Hossein", "Moradi", "8872649809", "Tehran, Resalat", "hossein_m", "1234", false);
 Personnel pl3 = new Personnel("Navid", "Mansori", "2247652908", "Tehran, Velenjak", "navid_m", "1234", false);
-Menu mn1 = new Menu("Chiken Sokhari", "Chiken", 400000);
-Menu mn2 = new Menu("Chiken Pizza", "Chiken", 500000);
-Menu mn3 = new Menu("Chiken Sandwich", "Chiken", 300000);
-Customer cu1 = new Customer("Ehsan", "Arefazdeh", "0094264784", "Tehran, Sabalan St.", "ehsan", "1234");
-Customer cu2 = new Customer("Mehran", "Ghasemi", "003446784", "Tehran, Narmak St.", "mehran", "1234");
-Customer cu3 = new Customer("Salar", "Azimi", "0023454784", "Tehran, Heravi St.", "salar", "1234");
+Menu mn1 = new Menu(1, "Chiken Sokhari", "Chiken", 400000);
+Menu mn2 = new Menu(2, "Chiken Pizza", "Chiken", 500000);
+Menu mn3 = new Menu(3, "Chiken Sandwich", "Chiken", 300000);
+Customer cu1 = new Customer(1, "Ehsan", "Arefazdeh", "0094264784", "Tehran, Sabalan St.", "ehsan", "1234");
+Customer cu2 = new Customer(2, "Mehran", "Ghasemi", "003446784", "Tehran, Narmak St.", "mehran", "1234");
+Customer cu3 = new Customer(3, "Salar", "Azimi", "0023454784", "Tehran, Heravi St.", "salar", "1234");
 Order or1 = new Order(1, DateTime.Now);
 restaurant1.AddMenu(mn1);
 restaurant1.AddMenu(mn2);

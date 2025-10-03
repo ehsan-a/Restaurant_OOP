@@ -9,20 +9,19 @@ namespace Restaurant_OOP
 {
     internal class Customer : Person
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
         public List<decimal> Balance { get; set; }
         public List<Order> Orders { get; private set; }
-        public Customer(string firstName, string lastName, string idNumber, string address, string username, string password)
+        public Customer(int id, string firstName, string lastName, string idNumber, string address, string username, string password)
         {
+            Id = id;
             Balance = new List<decimal>();
             Orders = new List<Order>();
             FirstName = firstName;
             LastName = lastName;
             IdNumber = idNumber;
             Address = address;
-            this.Username = username;
-            this.Password = password;
+            Username = username;
+            Password = password;
         }
         public decimal GetBalance()
         {

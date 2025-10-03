@@ -8,12 +8,14 @@ namespace Restaurant_OOP
 {
     internal class Menu
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         public List<int> Qty { get; set; }
-        public Menu(string name, string description, decimal price)
+        public Menu(int id, string name, string description, decimal price)
         {
+            Id = id;
             Name = name;
             Description = description;
             Price = price;

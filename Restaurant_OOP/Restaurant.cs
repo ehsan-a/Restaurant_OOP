@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,11 +26,38 @@ namespace Restaurant_OOP
         }
         public void AddMenu(Menu menu)
         {
-            Menus.Add(menu);
+            //Menus.Add(menu);
+            ExcelPackage.License.SetNonCommercialPersonal("E A");
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "database.xlsx");
+            using (var package = new ExcelPackage(new FileInfo(filePath)))
+            {
+                var sheet = package.Workbook.Worksheets[2];
+                int lastRow = sheet.Dimension.End.Row + 1;
+                sheet.Cells[lastRow, 1].Value = menu.Id;
+                sheet.Cells[lastRow, 2].Value = menu.Name;
+                sheet.Cells[lastRow, 3].Value = menu.Description;
+                sheet.Cells[lastRow, 4].Value = menu.Price;
+                package.Save();
+            }
         }
         public void AddCustomer(Customer customer)
         {
-            Customers.Add(customer);
+            //Customers.Add(customer);
+            ExcelPackage.License.SetNonCommercialPersonal("E A");
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "database.xlsx");
+            using (var package = new ExcelPackage(new FileInfo(filePath)))
+            {
+                var sheet = package.Workbook.Worksheets[1];
+                int lastRow = sheet.Dimension.End.Row + 1;
+                sheet.Cells[lastRow, 1].Value = customer.Id;
+                sheet.Cells[lastRow, 2].Value = customer.FirstName;
+                sheet.Cells[lastRow, 3].Value = customer.LastName;
+                sheet.Cells[lastRow, 4].Value = customer.IdNumber;
+                sheet.Cells[lastRow, 5].Value = customer.Address;
+                sheet.Cells[lastRow, 6].Value = customer.Username;
+                sheet.Cells[lastRow, 7].Value = customer.Password;
+                package.Save();
+            }
         }
         public void AddPersonnel(Personnel personnel)
         {
@@ -45,11 +73,33 @@ namespace Restaurant_OOP
         }
         public void ChargeBalance(Customer customer, decimal balance)
         {
-            customer.Balance.Add(balance);
+            //customer.Balance.Add(balance);
+            ExcelPackage.License.SetNonCommercialPersonal("E A");
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "database.xlsx");
+            using (var package = new ExcelPackage(new FileInfo(filePath)))
+            {
+                var sheet = package.Workbook.Worksheets[5];
+                int lastRow = sheet.Dimension.End.Row + 1;
+                sheet.Cells[lastRow, 1].Value = customer.Id;
+                sheet.Cells[lastRow, 2].Value = balance;
+                sheet.Cells[lastRow, 3].Value = DateTime.Now;
+                package.Save();
+            }
         }
         public void ChargeFoodQty(Menu menu, int qty)
         {
-            menu.Qty.Add(qty);
+            //menu.Qty.Add(qty);
+            ExcelPackage.License.SetNonCommercialPersonal("E A");
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "database.xlsx");
+            using (var package = new ExcelPackage(new FileInfo(filePath)))
+            {
+                var sheet = package.Workbook.Worksheets[3];
+                int lastRow = sheet.Dimension.End.Row + 1;
+                sheet.Cells[lastRow, 1].Value = menu.Id;
+                sheet.Cells[lastRow, 2].Value = qty;
+                sheet.Cells[lastRow, 3].Value = DateTime.Now;
+                package.Save();
+            }
         }
         public void ChangeStatus(Order order, Order.OrderStatus orderStatus)
         {
