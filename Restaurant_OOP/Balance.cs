@@ -8,9 +8,9 @@ namespace Restaurant_OOP
 {
     internal class Balance
     {
-        public int CustomerId { get; set; }
-        public decimal Amount { get; set; }
-        public DateTime Date { get; set; }
+        public int CustomerId { get; private set; }
+        public decimal Amount { get; private set; }
+        public DateTime Date { get; private set; }
         public Balance(int customerId, decimal amount, DateTime date)
         {
             CustomerId = customerId;

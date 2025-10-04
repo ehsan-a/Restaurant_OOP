@@ -14,6 +14,7 @@ namespace Restaurant_OOP
         public string Name { get; private set; }
         public string Description { get; private set; }
         public string Address { get; private set; }
+        public Customer user { get; private set; }
         public List<Menu> Menus { get; private set; }
         public List<FoodQty> FoodsQty { get; private set; }
         public List<Order> Orders { get; private set; }
@@ -246,6 +247,10 @@ namespace Restaurant_OOP
         {
             return Customers.Select(customer => $"{customer.FirstName.PadRight(12)}{customer.LastName.PadRight(12)}{customer.IdNumber.PadRight(11)}{customer.Address.PadRight(26)}{Orders.Count.ToString().PadRight(3)}{GetBalance(user).ToString().PadLeft(13)}");
         }
+        public IEnumerable<string> GetCustomer(Customer customer)
+        {
+            return Customers.Where(x => x.Id == customer.Id).Select(c => $"{c.FirstName.PadRight(12)}{c.LastName.PadRight(12)}{c.IdNumber.PadRight(13)}{c.Address.PadRight(24)}{Orders.Count(x => x.CustomerId == c.Id).ToString().PadRight(3)}{GetBalance(c).ToString().PadLeft(13)}");
+        }
         public IEnumerable<string> GetOrderDetail(Order order)
         {
             return Items.Where(detail => detail.OrderId == order.Id).Select(detail => $"{Menus.First(x => x.Id == detail.FoodId).Name.PadRight(30)}{Menus.First(x => x.Id == detail.FoodId).Price.ToString().PadRight(17)}{detail.Qty.ToString().PadRight(15)}{(Menus.First(x => x.Id == detail.FoodId).Price * detail.Qty).ToString().PadLeft(15)}");
@@ -260,7 +265,6 @@ namespace Restaurant_OOP
         {
             return FoodsQty.Where(x => x.FoodId == menu.Id).Sum(x => x.Qty) - Items.Where(x => x.FoodId == menu.Id).Sum(x => x.Qty);
         }
-        public Customer user;
         public bool Login(string username, string password)
         {
             var query = Customers.FirstOrDefault(x => x.Username == username && x.Password == password);

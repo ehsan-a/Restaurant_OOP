@@ -53,24 +53,19 @@ namespace Restaurant_OOP
         }
         public static void GetMenu(Restaurant restaurant)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"{"#".PadRight(4)}{"FOOD NAME".PadRight(27)}{"DESCRIPTION".PadRight(35)}{"PRICE".PadRight(10)}{"QTY".PadLeft(5)}");
-            Console.ResetColor();
-            int counter = 1;
-            foreach (var item in restaurant.GetMenu())
-            {
-                Console.WriteLine($"{counter.ToString().PadRight(4)}{item}");
-                counter++;
-            }
-            Console.WriteLine();
+            TableShow($"{"#".PadRight(4)}{"FOOD NAME".PadRight(27)}{"DESCRIPTION".PadRight(35)}{"PRICE".PadRight(10)}{"QTY".PadLeft(5)}", restaurant.GetMenu());
         }
         public static void GetOrderDetail(Restaurant restaurant, Order order)
         {
+            TableShow($"{"#".PadRight(4)}{"FOOD NAME".PadRight(30)}{"PRICE".PadRight(17)}{"QTY".PadRight(15)}{"SUM".PadLeft(15)}", restaurant.GetOrderDetail(order));
+        }
+        public static void TableShow(string header, IEnumerable<string> list)
+        {
             int counter = 1;
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"{"#".PadRight(4)}{"FOOD NAME".PadRight(30)}{"PRICE".PadRight(17)}{"QTY".PadRight(15)}{"SUM".PadLeft(15)}");
+            Console.WriteLine(header);
             Console.ResetColor();
-            foreach (var item in restaurant.GetOrderDetail(order))
+            foreach (var item in list)
             {
                 Console.WriteLine($"{counter.ToString().PadRight(4)}{item}");
                 counter++;
@@ -88,6 +83,7 @@ namespace Restaurant_OOP
             GetMenu(restaurant);
             int counter = 1;
             bool isFinish = false;
+            bool isCancel = false;
             do
             {
                 while (true)
@@ -101,8 +97,10 @@ namespace Restaurant_OOP
                     }
                     else if (input == "f" && restaurant.Items.Count(x => x.OrderId == or.Id) == 0)
                     {
-                        ErrorFormat($"Your Order list is Empty!");
-                        continue;
+                        //ErrorFormat($"Your Order list is Empty!");
+                        //continue;
+                        isCancel = true;
+                        break;
                     }
                     if (int.TryParse(input, out int number) && number <= restaurant.Menus.Count)
                     {
@@ -130,7 +128,9 @@ namespace Restaurant_OOP
                 }
                 counter++;
                 if (isFinish) break;
+                if (isCancel) break;
             } while (true);
+            if (isCancel) return;
             GetOrderDetail(restaurant, or);
             Console.Write("Confirm your order [y]Yes [n]No: ");
             if (Console.ReadLine() == "y")
@@ -143,17 +143,7 @@ namespace Restaurant_OOP
         {
             if (restaurant.Orders.FirstOrDefault(x => x.CustomerId == restaurant.user.Id) != null)
             {
-                int counter = 1;
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"{"#".PadRight(4)}{"ID".PadRight(4)}{"CUSTOMER".PadRight(24)}{"DATE/TIME".PadRight(30)}{"STATUS".PadRight(10)}{"SUM".PadLeft(9)}");
-                Console.ResetColor();
-                foreach (var item in restaurant.GetOrder(restaurant.user))
-                {
-                    Console.WriteLine($"{counter.ToString().PadRight(4)}{item}");
-                    counter++;
-                }
-                counter = 1;
-                Console.WriteLine();
+                TableShow($"{"#".PadRight(4)}{"ID".PadRight(4)}{"CUSTOMER".PadRight(24)}{"DATE/TIME".PadRight(30)}{"STATUS".PadRight(10)}{"SUM".PadLeft(9)}", restaurant.GetOrder(restaurant.user));
                 do
                 {
                     Console.Write("Enter Number of order for detail ([c]Close): ");
@@ -177,11 +167,7 @@ namespace Restaurant_OOP
         }
         public static void GetProfile(Restaurant restaurant)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"{"FIRST NAME".PadRight(12)}{"LAST NAME".PadRight(12)}{"ID NUMBER".PadRight(15)}{"ADDRESS".PadRight(26)}{"ORDERS".PadRight(3)}{"BALANCE".PadLeft(10)}");
-            Console.ResetColor();
-            Console.WriteLine($"{restaurant.user.FirstName.PadRight(12)}{restaurant.user.LastName.PadRight(12)}{restaurant.user.IdNumber.PadRight(15)}{restaurant.user.Address.PadRight(26)}{restaurant.Orders.Count(x => x.CustomerId == restaurant.user.Id).ToString().PadRight(3)}{restaurant.GetBalance(restaurant.user).ToString().PadLeft(13)}");
-            Console.WriteLine();
+            TableShow($"{"#".PadRight(4)}{"FIRST NAME".PadRight(12)}{"LAST NAME".PadRight(12)}{"ID NUMBER".PadRight(13)}{"ADDRESS".PadRight(24)}{"ORDERS".PadRight(3)}{"BALANCE".PadLeft(10)}", restaurant.GetCustomer(restaurant.user));
         }
     }
 }

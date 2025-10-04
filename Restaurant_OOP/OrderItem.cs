@@ -8,9 +8,9 @@ namespace Restaurant_OOP
 {
     internal class OrderItem
     {
-        public int OrderId { get; set; }
-        public int FoodId { get; set; }
-        public int Qty { get; set; }
+        public int OrderId { get; private set; }
+        public int FoodId { get; private set; }
+        public int Qty { get; private set; }
         public OrderItem(int orderId, int foodId, int qty)
         {
             OrderId = orderId;

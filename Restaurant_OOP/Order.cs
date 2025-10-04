@@ -15,10 +15,10 @@ namespace Restaurant_OOP
             Sending,
             Delivery
         }
-        public int Id { get; set; }
-        public int CustomerId { get; set; }
-        public DateTime Date { get; set; }
-        public OrderStatus Status { get; set; }
+        public int Id { get; private set; }
+        public int CustomerId { get; private set; }
+        public DateTime Date { get; private set; }
+        public OrderStatus Status { get; private set; }
         public Order(int id, int customerId, DateTime date, OrderStatus orderStatus = 0)
         {
             Id = id;
