@@ -8,6 +8,12 @@ namespace Restaurant_OOP
 {
     internal class Responsive
     {
+        public static void ErrorFormat(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
         public static void Login(Restaurant restaurant)
         {
             while (true)
@@ -23,9 +29,7 @@ namespace Restaurant_OOP
                     Console.ResetColor();
                     break;
                 }
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Password or Username is not valid!");
-                Console.ResetColor();
+                ErrorFormat("Password or Username is not valid!");
             }
         }
         public static void ChargeBalance(Restaurant restaurant)
@@ -43,9 +47,7 @@ namespace Restaurant_OOP
                 }
                 else
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("The input value is incorrect");
-                    Console.ResetColor();
+                    ErrorFormat("The input value is incorrect");
                 }
             } while (true);
         }
@@ -99,9 +101,7 @@ namespace Restaurant_OOP
                     }
                     else if (input == "f" && restaurant.Items.Count(x => x.OrderId == or.Id) == 0)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"Your Order list is Empty!");
-                        Console.ResetColor();
+                        ErrorFormat($"Your Order list is Empty!");
                         continue;
                     }
                     if (int.TryParse(input, out int number) && number <= restaurant.Menus.Count)
@@ -109,9 +109,7 @@ namespace Restaurant_OOP
                         Menu menu = restaurant.Menus[number - 1];
                         if (restaurant.Items.FirstOrDefault(x => x.OrderId == or.Id && x.FoodId == menu.Id) != null)
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"This food is on the list!");
-                            Console.ResetColor();
+                            ErrorFormat($"This food is on the list!");
                             continue;
                         }
                         Console.Write("Enter Qty of Food: ");
@@ -122,16 +120,12 @@ namespace Restaurant_OOP
                         }
                         else
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"Out Of Range Qty[1 - {restaurant.GetFoodQty(menu)}]");
-                            Console.ResetColor();
+                            ErrorFormat($"Out Of Range Qty[1 - {restaurant.GetFoodQty(menu)}]");
                         }
                     }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"Out Of Range Number[1 - {restaurant.Menus.Count}]");
-                        Console.ResetColor();
+                        ErrorFormat($"Out Of Range Number[1 - {restaurant.Menus.Count}]");
                     }
                 }
                 counter++;
@@ -165,14 +159,20 @@ namespace Restaurant_OOP
                     Console.Write("Enter Number of order for detail ([c]Close): ");
                     string input = Console.ReadLine();
                     if (input == "c") break;
-                    GetOrderDetail(restaurant, restaurant.Orders.Where(x => x.CustomerId == restaurant.user.Id).ToList()[(int.Parse(input) - 1)]);
+                    if (int.TryParse(input, out int index))
+                    {
+                        if (index > 0 && index <= restaurant.GetOrder(restaurant.user).ToList().Count)
+                            GetOrderDetail(restaurant, restaurant.Orders.Where(x => x.CustomerId == restaurant.user.Id).ToList()[(int.Parse(input) - 1)]);
+                        else
+                            ErrorFormat($"Out Of Range Number[1 - {restaurant.GetOrder(restaurant.user).ToList().Count}]");
+                    }
+                    else
+                        ErrorFormat($"Not a Number[1 - {restaurant.GetOrder(restaurant.user).ToList().Count}]");
                 } while (true);
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("You do not have an order!");
-                Console.ResetColor();
+                ErrorFormat("You do not have an order!");
             }
         }
         public static void GetProfile(Restaurant restaurant)
